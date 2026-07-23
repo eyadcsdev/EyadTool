@@ -1,0 +1,185 @@
+@import 'tailwindcss';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+/*
+ * Thmanyah fonts — loaded locally from resources/fonts/thmanyah.
+ * No external font CDNs are used.
+ */
+@font-face {
+    font-family: 'Thmanyah Sans';
+    src: url('../fonts/thmanyah/thmanyahsans-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Sans';
+    src: url('../fonts/thmanyah/thmanyahsans-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Sans';
+    src: url('../fonts/thmanyah/thmanyahsans-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Sans';
+    src: url('../fonts/thmanyah/thmanyahsans-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Serif Text';
+    src: url('../fonts/thmanyah/thmanyahseriftext-Regular.woff2')
+        format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Serif Text';
+    src: url('../fonts/thmanyah/thmanyahseriftext-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Thmanyah Serif Text';
+    src: url('../fonts/thmanyah/thmanyahseriftext-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@theme {
+    --font-sans:
+        'Thmanyah Sans', 'Segoe UI', Tahoma, system-ui, -apple-system,
+        sans-serif;
+    --font-serif: 'Thmanyah Serif Text', 'Noto Naskh Arabic', Georgia, serif;
+    --font-mono:
+        ui-monospace, 'Cascadia Code', Menlo, Consolas, 'Thmanyah Sans',
+        monospace;
+
+    /*
+     * Gruvbox-inspired palette (dark, warm), consistent with eyadcs.dev.
+     * night  = dark surfaces, cream/sand = warm text,
+     * gold/moss = muted accents, clay = sparing red accent.
+     */
+    --color-night-950: #1c1b19;
+    --color-night-900: #232220;
+    --color-night-850: #292724;
+    --color-night-800: #312e2b;
+    --color-night-700: #3e3a36;
+    --color-night-600: #4c4742;
+
+    --color-cream-100: #f0e4c3;
+    --color-cream-300: #d9cda9;
+    --color-sand-400: #aea284;
+    --color-sand-600: #7f7663;
+
+    --color-gold-300: #e4b96e;
+    --color-gold-400: #d8a657;
+    --color-gold-500: #c2924a;
+
+    --color-moss-300: #b6c27a;
+    --color-moss-400: #a3b36a;
+
+    --color-clay-400: #d9836b;
+}
+
+@layer base {
+    body {
+        background-color: var(--color-night-950);
+        color: var(--color-cream-100);
+        font-family: var(--font-sans);
+        /* Restrained terminal-style grid backdrop */
+        background-image:
+            linear-gradient(
+                to left,
+                rgb(240 228 195 / 0.03) 1px,
+                transparent 1px
+            ),
+            linear-gradient(
+                to bottom,
+                rgb(240 228 195 / 0.03) 1px,
+                transparent 1px
+            );
+        background-size: 76px 76px;
+    }
+
+    ::selection {
+        background-color: var(--color-gold-400);
+        color: var(--color-night-950);
+    }
+
+    :where(a, button, [tabindex]):focus-visible {
+        outline: 2px solid var(--color-gold-400);
+        outline-offset: 3px;
+        border-radius: 4px;
+    }
+}
+
+/* Terminal caret */
+@keyframes cursor-blink {
+    0%,
+    49% {
+        opacity: 1;
+    }
+    50%,
+    100% {
+        opacity: 0;
+    }
+}
+
+.terminal-cursor {
+    animation: cursor-blink 1.15s steps(1, end) infinite;
+}
+
+/* Subtle scroll reveal (JS toggles data-visible) */
+.reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+        opacity 0.7s cubic-bezier(0.22, 0.61, 0.36, 1),
+        transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.reveal[data-visible='true'] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .terminal-cursor {
+        animation: none;
+    }
+}
